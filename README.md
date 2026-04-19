@@ -1,4 +1,4 @@
-# Gwen 🤍
+# 🤍Gwen 
 
 Gwen is my personal AI assistant — built to answer questions about me,
 my work, research goals, and projects. Powered by Gemini (Groq fallback),
