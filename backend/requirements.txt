@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+motor
+pymongo
+PyMuPDF
+langchain-text-splitters
+google-genai
+groq
+python-dotenv
+pydantic
+pinecone
+pydantic-settings
