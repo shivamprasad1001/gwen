@@ -1,14 +1,10 @@
-# Personal Knowledge AI Chatbot
+# Gwen 🤍
 
-A production-ready RAG-based AI assistant that uses your personal documents (PDF, JSON, TXT, MD) as knowledge source.
+Gwen is my personal AI assistant — built to answer questions about me,
+my work, research goals, and projects. Powered by Gemini (Groq fallback),
+backed by Pinecone vector search, and built with FastAPI + React.
 
-## 🚀 Features
-- **Retrieval Augmented Generation (RAG)**: Extracts answers ONLY from your documents.
-- **Smart Primary/Fallback LLM**: Uses Google Gemini (Primary) and Groq/Llama 3.3 (Fallback).
-- **High-Performance Vector Search**: Powered by MongoDB Atlas Vector Search.
-- **Modern UI**: Dark mode, glassmorphism design with responsive sidebar.
-- **Admin Tools**: Knowledge management and document clearing.
-
+> "Who is Shivam?" — Just ask Gwen.
 ---
 
 ## 🛠️ Setup Instructions
