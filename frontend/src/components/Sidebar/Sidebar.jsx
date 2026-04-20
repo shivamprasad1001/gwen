@@ -2,6 +2,7 @@ import React from 'react';
 import { Plus } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import SessionList from './SessionList';
+import gwenAvatarUrl from '../../assets/gwen-avatar.svg';
 
 const Sidebar = ({ 
   isOpen, 
@@ -18,12 +19,32 @@ const Sidebar = ({
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}
     >
-      {/* Sidebar Header */}
-      <div className="p-5 px-6 pb-3">
-        <h2 className="font-lora text-[20px] italic font-semibold text-warm-accent">
-          Gwen
-        </h2>
-        <p className="text-[12px] text-warm-text-secondary font-sans">
+      {/* Sidebar Header with Avatar */}
+      <div style={{ 
+        display:'flex', 
+        alignItems:'center', 
+        gap: 8,
+        padding: '20px 16px 12px' 
+      }}>
+        <div style={{
+          width: 28, 
+          height: 28,
+          borderRadius: '50%',
+          overflow: 'hidden',
+          flexShrink: 0
+        }}>
+          <img src={gwenAvatarUrl} width="28" height="28" alt="Gwen" />
+        </div>
+        <span style={{
+          fontFamily: 'Lora, serif',
+          fontStyle: 'italic',
+          fontSize: 17,
+          color: '#C17D4A'
+        }}>Gwen</span>
+      </div>
+
+      <div className="px-6 pb-3">
+        <p className="text-[12px] text-warm-text-secondary font-sans leading-tight">
           your conversations
         </p>
       </div>

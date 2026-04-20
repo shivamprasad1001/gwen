@@ -1,5 +1,6 @@
 import React from 'react';
 import QuickChips from '../UI/QuickChips';
+import gwenAvatarUrl from '../../assets/gwen-avatar.svg';
 
 const SUGGESTIONS = [
   "Who is Shivam? 👤",
@@ -12,9 +13,23 @@ const SUGGESTIONS = [
 const WelcomeScreen = ({ onSendMessage }) => {
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-6 max-w-lg mx-auto transform -translate-y-12">
-      {/* Monogram */}
-      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-warm-accent to-[#8B5E3C] flex items-center justify-center text-white font-lora text-28px italic font-semibold shadow-warm-md mb-6">
-        G
+      {/* Large Avatar using animated SVG */}
+      <div style={{
+        width: 80,
+        height: 80,
+        borderRadius: '50%',
+        overflow: 'hidden',
+        margin: '0 auto 24px',
+        border: '2px solid #E8D5BE',
+        boxShadow: '0 4px 24px rgba(193,125,74,0.15)'
+      }}>
+        <img
+          src={gwenAvatarUrl}
+          width="80"
+          height="80"
+          alt="Gwen"
+          style={{ display: 'block' }}
+        />
       </div>
 
       <h2 className="font-lora text-2xl font-medium text-warm-text-primary text-center mb-3">

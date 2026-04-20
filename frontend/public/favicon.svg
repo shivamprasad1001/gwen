@@ -13,7 +13,7 @@
 
   .orbit1 { transform-origin: 200px 200px; animation: slowSpin  18s linear infinite; }
   .orbit2 { transform-origin: 200px 200px; animation: slowSpinR 28s linear infinite; }
-  .orbit3 { transform-origin: 200px 200px; animation: slowSpin  40s linear infinite; }
+  .orbit3 { transform-origin: 200px 200px; animation: slowSpin  40s infinite; }
   .core   { animation: pulse 3s ease-in-out infinite; }
   .floatA { animation: floatA 4s ease-in-out infinite; }
   .floatB { animation: floatB 5s ease-in-out infinite; }

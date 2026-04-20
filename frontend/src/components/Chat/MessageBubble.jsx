@@ -1,6 +1,7 @@
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
 import MarkdownRenderer from '../UI/MarkdownRenderer';
+import gwenAvatarStaticUrl from '../../assets/gwen-avatar-static.svg';
 
 const MessageBubble = ({ role, content, timestamp }) => {
   const isUser = role === 'user';
@@ -14,10 +15,24 @@ const MessageBubble = ({ role, content, timestamp }) => {
         "flex gap-2.5 max-w-[85%] md:max-w-[72%]",
         isUser ? "flex-row-reverse" : "flex-row"
       )}>
-        {/* Avatar for Bot */}
+        {/* Avatar for Bot using Static SVG for performance */}
         {!isUser && (
-          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-warm-accent to-[#8B5E3C] flex items-center justify-center text-white font-lora text-[12px] italic flex-shrink-0 mt-0.5 shadow-sm">
-            Gwen
+          <div style={{
+            width: 30,
+            height: 30,
+            borderRadius: '50%',
+            overflow: 'hidden',
+            flexShrink: 0,
+            marginTop: 2,
+            border: '1px solid #E8D5BE'
+          }}>
+            <img
+              src={gwenAvatarStaticUrl}
+              width="30"
+              height="30"
+              alt="Gwen"
+              style={{ display: 'block' }}
+            />
           </div>
         )}
 
