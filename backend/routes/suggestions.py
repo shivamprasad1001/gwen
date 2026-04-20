@@ -4,7 +4,7 @@ import json
 import logging
 import re
 from backend.services.llm import client as gemini_client
-from backend.config import settings
+from backend.settings import settings
 from groq import AsyncGroq
 
 router = APIRouter()

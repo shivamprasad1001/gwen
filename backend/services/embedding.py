@@ -1,5 +1,5 @@
 from google import genai
-from backend.config import settings
+from backend.settings import settings
 import logging
 import asyncio
 

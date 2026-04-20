@@ -1,6 +1,6 @@
 import secrets
 from fastapi import APIRouter, Header, HTTPException
-from backend.config import settings
+from backend.settings import settings
 from backend.services.knowledge_loader import build_knowledge_context
 import backend.main as main_module
 

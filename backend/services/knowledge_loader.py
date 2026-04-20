@@ -2,7 +2,7 @@ import os
 import json
 import logging
 from typing import List, Dict, Any
-from backend.config import settings, knowledge_base
+from backend.settings import settings, knowledge_base
 
 logger = logging.getLogger(__name__)
 

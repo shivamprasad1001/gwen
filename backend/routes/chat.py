@@ -6,7 +6,7 @@ from backend.models import ChatRequest, ChatResponse
 from backend.services.llm import ask_gemini, ask_groq
 from backend.services.embedding import generate_embedding
 from backend.services.retriever import pinecone_search
-from backend.config import chat_sessions, settings
+from backend.settings import chat_sessions, settings
 import backend.main as main_module
 
 router = APIRouter()

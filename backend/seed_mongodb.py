@@ -1,6 +1,6 @@
 import asyncio
 from datetime import datetime
-from backend.config import knowledge_base
+from backend.settings import knowledge_base
 
 async def seed():
     print("Starting MongoDB Seeding...")

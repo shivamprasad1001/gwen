@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from backend.models import HealthResponse
-from backend.config import db, pinecone_index
+from backend.settings import db, pinecone_index
 import backend.main as main_module
 
 router = APIRouter()

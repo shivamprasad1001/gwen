@@ -1,5 +1,5 @@
 from typing import List, Dict, Any
-from backend.config import pinecone_index, settings
+from backend.settings import pinecone_index, settings
 import logging
 
 logger = logging.getLogger(__name__)

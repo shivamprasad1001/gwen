@@ -2,7 +2,7 @@ import logging
 from typing import List
 from google import genai
 from groq import AsyncGroq
-from backend.config import settings
+from backend.settings import settings
 
 logger = logging.getLogger(__name__)
 
