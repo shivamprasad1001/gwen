@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.routes import chat, admin, health
+from backend.routes import chat, admin, health, suggestions
 from backend.services.knowledge_loader import build_knowledge_context
 import logging
 
@@ -53,6 +53,7 @@ app.include_router(chat.router, prefix="/api")
 # admin router is kept but typically secured in production
 app.include_router(admin.router, prefix="/api")
 app.include_router(health.router, prefix="/api")
+app.include_router(suggestions.router, prefix="/api")
 
 if __name__ == "__main__":
     import uvicorn

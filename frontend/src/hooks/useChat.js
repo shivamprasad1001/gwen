@@ -1,15 +1,41 @@
 import { useState, useCallback } from 'react';
 import * as api from '../api/client';
+import { getKeywordSuggestions } from '../utils/getKeywordSuggestions';
 
 export const useChat = (currentSessionId, currentSessionMessages, updateSessionMessages) => {
-  const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [suggestions, setSuggestions] = useState([]);
+  const [suggestionsVisible, setSuggestionsVisible] = useState(false);
 
-  // Sync messages when currentSessionId changes
-  // We use local state for immediate UI feedback, but sync it back to sessions hook
+  const fetchSuggestions = async (userMsg, assistantReply) => {
+    try {
+      const response = await api.post('/suggestions', {
+        last_user_message: userMsg,
+        last_assistant_reply: assistantReply
+      });
+      
+      const data = response.data || response; // handle both axios response structures
+      
+      if (data.suggestions && data.suggestions.length === 3) {
+        setSuggestions(data.suggestions);
+        setSuggestionsVisible(true);
+      } else {
+        throw new Error('Invalid suggestions format');
+      }
+    } catch (err) {
+      console.warn('Backend suggestions failed, falling back to keywords:', err);
+      const fallback = getKeywordSuggestions(assistantReply);
+      setSuggestions(fallback);
+      setSuggestionsVisible(true);
+    }
+  };
+
   const sendMessage = useCallback(async (text) => {
     if (!text.trim()) return;
+
+    // Reset suggestions immediately
+    setSuggestionsVisible(false);
 
     let targetId = currentSessionId;
     let sessionMsgs = [...(currentSessionMessages || [])];
@@ -47,6 +73,12 @@ export const useChat = (currentSessionId, currentSessionMessages, updateSessionM
       };
 
       updateSessionMessages(targetId, [...newMsgs, assistantMessage]);
+      
+      // Delay fetch suggestions slightly for better UX (let Gwen's message appear first)
+      setTimeout(() => {
+        fetchSuggestions(text, response.reply);
+      }, 400);
+
     } catch (err) {
       setError(err.response?.data?.detail || 'Wait, I am having trouble connecting. Try again?');
       console.error('Chat error:', err);
@@ -58,6 +90,9 @@ export const useChat = (currentSessionId, currentSessionMessages, updateSessionM
   return {
     sendMessage,
     isLoading,
-    error
+    error,
+    suggestions,
+    suggestionsVisible,
+    setSuggestionsVisible
   };
 };

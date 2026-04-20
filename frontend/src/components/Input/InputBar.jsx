@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
+import FollowUpSuggestions from './FollowUpSuggestions';
 
-const InputBar = ({ onSend, isLoading }) => {
+const InputBar = ({ onSend, isLoading, suggestions, suggestionsVisible, setSuggestionsVisible }) => {
   const [text, setText] = useState('');
   const textareaRef = useRef(null);
 
@@ -18,10 +19,12 @@ const InputBar = ({ onSend, isLoading }) => {
     handleAdjustHeight();
   }, [text]);
 
-  const handleSend = () => {
-    if (text.trim() && !isLoading) {
-      onSend(text.trim());
+  const handleSend = (overrideText) => {
+    const finalMsg = typeof overrideText === 'string' ? overrideText : text;
+    if (finalMsg.trim() && !isLoading) {
+      onSend(finalMsg.trim());
       setText('');
+      if (suggestionsVisible) setSuggestionsVisible(false);
       if (textareaRef.current) {
         textareaRef.current.style.height = 'auto';
       }
@@ -35,10 +38,30 @@ const InputBar = ({ onSend, isLoading }) => {
     }
   };
 
+  const handleTextChange = (e) => {
+    const val = e.target.value;
+    setText(val);
+    // Dismiss suggestions upon typing
+    if (val.trim() && suggestionsVisible) {
+      setSuggestionsVisible(false);
+    }
+  };
+
+  const handleSuggestionClick = (suggestionText) => {
+    handleSend(suggestionText);
+  };
+
   return (
     <div className="w-full bg-warm-base px-5 pb-6 pt-2">
       <div className="max-w-3xl mx-auto flex flex-col items-center gap-2">
         
+        {/* Follow-up Suggestions Area */}
+        <FollowUpSuggestions 
+          suggestions={suggestions}
+          visible={suggestionsVisible}
+          onSelect={handleSuggestionClick}
+        />
+
         {/* Input Wrapper */}
         <div className={twMerge(
           "w-full flex items-end gap-2 bg-warm-surface border border-warm-border rounded-xl p-2.5 px-4 transition-all duration-300 shadow-sm",
@@ -47,7 +70,7 @@ const InputBar = ({ onSend, isLoading }) => {
           <textarea
             ref={textareaRef}
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={handleTextChange}
             onKeyDown={handleKeyDown}
             placeholder="Ask Gwen anything..."
             rows={1}
@@ -55,7 +78,7 @@ const InputBar = ({ onSend, isLoading }) => {
           />
           
           <button
-            onClick={handleSend}
+            onClick={() => handleSend()}
             disabled={!text.trim() || isLoading}
             className={twMerge(
               "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 flex-shrink-0",

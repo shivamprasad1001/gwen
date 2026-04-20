@@ -17,19 +17,19 @@ const MessageBubble = ({ role, content, timestamp }) => {
         {/* Avatar for Bot */}
         {!isUser && (
           <div className="w-7 h-7 rounded-full bg-gradient-to-br from-warm-accent to-[#8B5E3C] flex items-center justify-center text-white font-lora text-[12px] italic flex-shrink-0 mt-0.5 shadow-sm">
-            G
+            Gwen
           </div>
         )}
 
         {/* Bubble */}
         <div className={twMerge(
           "px-[18px] py-[14px] text-[15px] shadow-warm-soft transition-all duration-300",
-          isUser 
-            ? "bg-warm-message-usr text-white rounded-l-lg rounded-tr-lg rounded-br-sm" 
+          isUser
+            ? "bg-warm-message-usr text-warm-text-primary rounded-l-lg rounded-tr-lg rounded-br-sm"
             : "bg-warm-message-bot border border-warm-border rounded-r-lg rounded-tl-lg rounded-bl-sm"
         )}>
           {isUser ? (
-            <p className="whitespace-pre-wrap font-sans leading-relaxed">
+            <p className="whitespace-pre-wrap font-sans leading-relaxed text-warm-text-primary">
               {content}
             </p>
           ) : (

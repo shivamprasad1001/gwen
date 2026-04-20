@@ -29,7 +29,7 @@ const ChatWindow = ({ messages, isLoading, onSendMessage }) => {
               />
             ))}
             
-            {isLoading && <TypingIndicator />}
+            {isLoading && <TypingIndicator/>}
             
             {/* Scroll Anchor */}
             <div ref={scrollRef} className="h-4 w-full flex-shrink-0" />

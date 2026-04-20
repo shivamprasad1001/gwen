@@ -127,9 +127,7 @@ async def chat_endpoint(request: ChatRequest):
         
         # 4. LOGGING
         asyncio.create_task(log_session(session_id, request.message, reply))
-        print("="*40)
-        print(reply)
-        print("="*40)
+       
         return ChatResponse(
             reply=reply,
             session_id=session_id

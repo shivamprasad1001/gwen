@@ -20,7 +20,7 @@ function App() {
   } = useSessions();
 
   // Chat State
-  const { sendMessage, isLoading, error } = useChat(
+  const { sendMessage, isLoading, error, suggestions, suggestionsVisible, setSuggestionsVisible } = useChat(
     currentSessionId, 
     currentSession?.messages, 
     updateSessionMessages
@@ -107,6 +107,9 @@ function App() {
         <InputBar 
           onSend={handleSend} 
           isLoading={isLoading} 
+          suggestions={suggestions}
+          suggestionsVisible={suggestionsVisible}
+          setSuggestionsVisible={setSuggestionsVisible}
         />
 
         {/* Global Error Banner */}
