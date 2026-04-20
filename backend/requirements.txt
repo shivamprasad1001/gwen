@@ -4,7 +4,7 @@ motor
 pymongo
 PyMuPDF
 langchain-text-splitters
-google-genai
+google-generativeai 
 groq
 python-dotenv
 pydantic
