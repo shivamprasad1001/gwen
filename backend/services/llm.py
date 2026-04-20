@@ -6,11 +6,21 @@ from backend.config import settings
 
 logger = logging.getLogger(__name__)
 
-# Initialize the new Google GenAI Client
-client = genai.Client(api_key=settings.GEMINI_API_KEY)
+# Initialize the Google GenAI Client lazily
+client = None
+if settings.GEMINI_API_KEY:
+    try:
+        client = genai.Client(api_key=settings.GEMINI_API_KEY)
+    except Exception as e:
+        logger.error(f"Failed to initialize Gemini client: {e}")
+else:
+    logger.warning("GEMINI_API_KEY not set. Gemini functionality will be unavailable.")
 
 async def ask_gemini(system_prompt: str, history: List[dict], message: str) -> str:
     """Primary LLM handler: Google Gemini 1.5 Flash using new google-genai SDK."""
+    if client is None:
+        logger.error("Gemini client is not initialized. Check GEMINI_API_KEY.")
+        raise Exception("Gemini client not initialized")
     try:
         # Format history for the new SDK
         # The new SDK uses 'user' and 'model'
