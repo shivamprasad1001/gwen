@@ -40,7 +40,7 @@ async def ask_gemini(system_prompt: str, history: List[dict], message: str) -> s
             
         # Call generate_content with system_instruction in config
         response = client.models.generate_content(
-            model="gemini-1.5-flash",
+            model="gemini-2.0-flash",
             contents=contents,
             config={
                 "system_instruction": system_prompt
