@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from backend.settings import settings
 from backend.routes import chat, admin, health, suggestions
 from backend.services.knowledge_loader import build_knowledge_context
 import logging
