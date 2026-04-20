@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     PINECONE_NAMESPACE: str = os.getenv("PINECONE_NAMESPACE", "v1")
     
     OWNER_NAME: str = os.getenv("OWNER_NAME", "Shivam")
+    ALLOWED_ORIGINS: str = os.getenv("ALLOWED_ORIGINS", "https://gwen-xi.vercel.app,http://localhost:5173")
     TOP_K: int = 5
 
 settings = Settings()

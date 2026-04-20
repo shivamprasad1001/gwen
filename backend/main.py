@@ -42,11 +42,7 @@ app = FastAPI(
 # CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://gwen-xi.vercel.app",
-        "http://localhost:5173", # Local dev
-        "*" # Fallback for now to ensure absolute connectivity
-    ],
+    allow_origins=settings.ALLOWED_ORIGINS.split(","),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
