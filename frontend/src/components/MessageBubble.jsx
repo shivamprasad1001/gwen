@@ -2,14 +2,24 @@ import React from 'react';
 import { User } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import { marked } from 'marked';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github-dark.css'; // Premium dark theme for code
 
 const MessageBubble = ({ role, content }) => {
   const isUser = role === 'user';
 
-  // Configure marked for safety
+  // Configure marked for safety and syntax highlighting
   marked.setOptions({
     gfm: true,
     breaks: true,
+    highlight: function (code, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return hljs.highlight(code, { language: lang }).value;
+        } catch (err) {}
+      }
+      return hljs.highlightAuto(code).value;
+    }
   });
 
   const htmlContent = marked.parse(content);
@@ -34,13 +44,18 @@ const MessageBubble = ({ role, content }) => {
           "px-4 py-3 rounded-2xl inline-block text-sm leading-relaxed",
           isUser 
             ? "bg-accent/10 border border-accent/20 text-accent rounded-tr-none" 
-            : "bg-[#1F2833] border border-[#2E3C4E] text-[#C5C6C7] rounded-tl-none shadow-lg prose prose-invert prose-sm"
+            : "bg-[#1F2833] border border-[#2E3C4E] text-[#C5C6C7] rounded-tl-none shadow-lg"
         )}>
           {isUser ? (
             <p className="whitespace-pre-wrap">{content}</p>
           ) : (
             <div 
-              className="markdown-content"
+              className="prose prose-invert prose-sm max-w-none 
+                         prose-headings:text-accent prose-a:text-accent 
+                         prose-code:text-accent prose-strong:text-accent-hover
+                         prose-code:bg-darker prose-code:px-1 prose-code:rounded
+                         prose-pre:bg-[#0B0C10] prose-pre:border prose-pre:border-[#2E3C4E]
+                         markdown-content"
               dangerouslySetInnerHTML={{ __html: htmlContent }} 
             />
           )}

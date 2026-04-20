@@ -2,19 +2,14 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
+  timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-export const chat = async (data) => {
-  const response = await api.post('/chat', data);
-  return response.data;
-};
-
-export const checkHealth = async () => {
-  const response = await api.get('/health');
-  return response.data;
-};
+export const chat = ({ message, history, session_id }) =>
+  api.post('/chat', { message, history, session_id })
+     .then(r => r.data);
 
 export default api;

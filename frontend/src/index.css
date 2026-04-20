@@ -3,30 +3,68 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  --bg-base:        #FAF7F2;
+  --bg-surface:     #F3EFE8;
+  --bg-sidebar:     #EDEAE3;
+  --bg-message-bot: #F0EBE1;
+  --bg-message-usr: #2C2825;
+  --accent:         #C17D4A;
+  --accent-soft:    #E8D5BE;
+  --text-primary:   #2C2825;
+  --text-secondary: #7A6E65;
+  --text-muted:     #A89E94;
+  --text-on-dark:   #FAF7F2;
+  --border:         #E0D9CF;
+  --border-focus:   #C17D4A;
+  --shadow-soft:    0 2px 12px rgba(44, 40, 37, 0.06);
+  --shadow-md:      0 4px 24px rgba(44, 40, 37, 0.10);
+  --radius-sm:      8px;
+  --radius-md:      14px;
+  --radius-lg:      20px;
+  --radius-xl:      28px;
+  --sidebar-width:  280px;
+  --transition:     200ms ease;
+  --transition-md:  300ms ease;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+html, body, #root {
+  height: 100%;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
-  margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  overflow-x: hidden;
+  overflow: hidden; /* No scrollbar on body as per spec */
 }
 
-#root {
-  height: 100vh;
+/* Custom scrollbar */
+::-webkit-scrollbar { 
+  width: 4px; 
 }
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #0B0C10;
+::-webkit-scrollbar-track { 
+  background: transparent; 
 }
 ::-webkit-scrollbar-thumb {
-  background: #1F2833;
-  border-radius: 10px;
+  background: var(--border);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #45A29E;
+  background: var(--text-muted);
 }
+
+/* Selection highlight */
+::selection {
+  background: var(--accent-soft);
+  color: var(--text-primary);
+}
+
+/* Animations are defined in tailwind.config.js or via @keyframes here if needed */
+/* We already put keyframes in tailwind.config.js, so they are available via animate-* classes */

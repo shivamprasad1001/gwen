@@ -1,80 +1,122 @@
-import React, { useState } from 'react';
-import ChatWindow from './components/ChatWindow';
-import InputBar from './components/InputBar';
+import React, { useState, useEffect } from 'react';
+import Sidebar from './components/Sidebar/Sidebar';
+import Header from './components/Header/Header';
+import ChatWindow from './components/Chat/ChatWindow';
+import InputBar from './components/Input/InputBar';
+import SidebarToggle from './components/UI/SidebarToggle';
+import { useSessions } from './hooks/useSessions';
 import { useChat } from './hooks/useChat';
-import { BrainCircuit, Github, Command } from 'lucide-react';
-
-const SUGGESTIONS = [
-  "Who is Shivam?", 
-  "What is TriviLabs?",
-  "His research goals", 
-  "Current projects", 
-  "Tech stack"
-];
 
 function App() {
-  const { messages, sendMessage, isLoading, error, showSuggestions } = useChat();
+  // Session State
+  const { 
+    sessions, 
+    currentSession, 
+    currentSessionId, 
+    createSession, 
+    selectSession, 
+    updateSessionMessages,
+    getGroupedSessions
+  } = useSessions();
+
+  // Chat State
+  const { sendMessage, isLoading, error } = useChat(
+    currentSessionId, 
+    currentSession?.messages, 
+    updateSessionMessages
+  );
+
+  // UI State
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
+
+  // Handle Window Resize
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (mobile) setSidebarOpen(false);
+      else setSidebarOpen(true);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleNewChat = () => {
+    createSession();
+    if (isMobile) setSidebarOpen(false);
+  };
+
+  const handleSelectSession = (id) => {
+    selectSession(id);
+    if (isMobile) setSidebarOpen(false);
+  };
+
+  const handleSend = async (text) => {
+    let activeId = currentSessionId;
+    
+    // Create session if none exists
+    if (!activeId) {
+      activeId = createSession();
+    }
+    
+    // Send message (useChat handles the logic)
+    await sendMessage(text, activeId);
+  };
 
   return (
-    <div className="flex h-screen bg-[#0B0C10] text-[#C5C6C7] overflow-hidden">
-      {/* Main Content */}
-      <main className="flex-grow flex flex-col h-full bg-gradient-to-br from-[#0B0C10] via-[#0B0C10] to-[#121212] relative">
-        {/* Header */}
-        <header className="flex items-center justify-between px-6 py-4 border-b border-muted/5 bg-dark/40 backdrop-blur-md z-20">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center relative group">
-              <div className="absolute inset-0 bg-accent blur-md opacity-0 group-hover:opacity-20 transition-opacity"></div>
-              <span className="text-accent font-bold text-sm">SP</span>
-            </div>
-            <div>
-              <h1 className="text-sm font-black tracking-widest uppercase text-white">Shivam</h1>
-              <div className="flex items-center gap-2">
-                <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
-                <span className="text-[9px] text-muted font-bold tracking-tighter uppercase opacity-60">Personal AI • Online</span>
-              </div>
+    <div className="flex h-screen w-full bg-warm-base overflow-hidden relative font-sans text-warm-text-primary">
+      
+      {/* Sidebar Component */}
+      <Sidebar 
+        isOpen={sidebarOpen}
+        groupedSessions={getGroupedSessions()}
+        currentSessionId={currentSessionId}
+        onSelectSession={handleSelectSession}
+        onNewChat={handleNewChat}
+      />
+
+      {/* Mobile Overlay */}
+      {isMobile && sidebarOpen && (
+        <div 
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 bg-[#2C2825]/30 backdrop-blur-[2px] z-40 transition-opacity duration-300" 
+        />
+      )}
+
+      {/* Main Container */}
+      <main className="flex-1 flex flex-col h-full overflow-hidden relative">
+        {/* Toggle Button */}
+        <SidebarToggle 
+          isOpen={sidebarOpen} 
+          onToggle={() => setSidebarOpen(prev => !prev)} 
+        />
+
+        {/* Header Bar */}
+        <Header />
+
+        {/* Primary Chat View */}
+        <ChatWindow 
+          messages={currentSession?.messages || []} 
+          isLoading={isLoading} 
+          onSendMessage={handleSend}
+        />
+
+        {/* Sticky Input Bar */}
+        <InputBar 
+          onSend={handleSend} 
+          isLoading={isLoading} 
+        />
+
+        {/* Global Error Banner */}
+        {error && (
+          <div className="absolute top-[72px] left-1/2 -translate-x-1/2 z-50">
+            <div className="bg-warm-message-usr text-white px-4 py-2 rounded-full text-xs shadow-md border border-white/10 animate-in fade-in slide-in-from-top-2">
+              {error}
             </div>
           </div>
-
-          <div className="flex items-center gap-6">
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="text-muted hover:text-accent transition-colors">
-              <Github size={18} />
-            </a>
-            <div className="h-4 w-[1px] bg-muted/20"></div>
-            <div className="flex items-center gap-2 text-[10px] text-muted font-mono bg-darker px-2 py-1 rounded border border-muted/10">
-              <Command size={10} />
-              IDENTITY_MODE
-            </div>
-          </div>
-        </header>
-
-        {/* Chat Area */}
-        <div className="flex-grow overflow-hidden flex flex-col relative">
-          <ChatWindow messages={messages} isLoading={isLoading} error={error} />
-          
-          {/* Suggestion Chips */}
-          {showSuggestions && (
-            <div className="absolute bottom-4 left-0 right-0 px-6 flex flex-wrap justify-center gap-2 animate-in fade-in slide-in-from-bottom-4 duration-700">
-              {SUGGESTIONS.map((s, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => sendMessage(s)}
-                  className="px-4 py-2 bg-darker/60 hover:bg-accent/10 border border-muted/10 hover:border-accent/40 rounded-full text-xs text-muted hover:text-accent transition-all duration-300 backdrop-blur-sm"
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Input area */}
-        <div className="w-full max-w-4xl mx-auto">
-          <InputBar onSend={sendMessage} isLoading={isLoading} />
-        </div>
-        
-        {/* Ambient background decoration */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[150px] -z-10 translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-muted/5 rounded-full blur-[120px] -z-10 -translate-x-1/2 translate-y-1/2"></div>
+        )}
       </main>
     </div>
   );

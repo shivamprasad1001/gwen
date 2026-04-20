@@ -171,3 +171,10 @@ build/
 .env.production.local
 .env
 *.log
+
+# Debug and Verification Scripts
+backend/check_stats.py
+backend/debug_pinecone.py
+backend/verify_rag.py
+backend/delete_index.py
+backend/delete_session.py

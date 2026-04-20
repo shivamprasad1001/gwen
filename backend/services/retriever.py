@@ -13,7 +13,8 @@ async def pinecone_search(query_embedding: List[float], top_k: int = 5) -> str:
         query_response = pinecone_index.query(
             vector=query_embedding,
             top_k=top_k,
-            include_metadata=True
+            include_metadata=True,
+            namespace=settings.PINECONE_NAMESPACE
         )
         
         matches = query_response.get("matches", [])
@@ -29,9 +30,9 @@ async def pinecone_search(query_embedding: List[float], top_k: int = 5) -> str:
             score = match.get("score", 0.0)
             
             if text:
-                context_chunks.append(f"[Source: {source} | Score: {score:.2f}]\n{text}")
+                context_chunks.append(text)
         
-        return "\n---\n".join(context_chunks)
+        return "\n\n".join(context_chunks)
         
     except Exception as e:
         logger.error(f"Pinecone search error: {str(e)}")

@@ -11,12 +11,13 @@ class Settings(BaseSettings):
     DB_NAME: str = os.getenv("DB_NAME", "personal_ai_db")
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
     GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
-    ADMIN_TOKEN: str = os.getenv("ADMIN_TOKEN", "super_secret_admin_token")
+    ADMIN_TOKEN: str = os.getenv("ADMIN_TOKEN", "")
     DATA_FOLDER: str = os.getenv("DATA_FOLDER", "data/")
     
     # Pinecone Configuration
     PINECONE_API_KEY: str = os.getenv("PINECONE_API_KEY", "")
     PINECONE_INDEX_NAME: str = os.getenv("PINECONE_INDEX_NAME", "personal-knowledge")
+    PINECONE_NAMESPACE: str = os.getenv("PINECONE_NAMESPACE", "v1")
     
     OWNER_NAME: str = os.getenv("OWNER_NAME", "Shivam")
     TOP_K: int = 5
