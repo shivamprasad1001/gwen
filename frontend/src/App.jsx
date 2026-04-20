@@ -66,7 +66,7 @@ function App() {
   };
 
   return (
-    <div className="flex h-screen w-full bg-warm-base overflow-hidden relative font-sans text-warm-text-primary">
+    <div className="flex h-[100dvh] w-full bg-warm-base overflow-hidden relative font-sans text-warm-text-primary">
       
       {/* Sidebar Component */}
       <Sidebar 
@@ -115,7 +115,7 @@ function App() {
         {/* Global Error Banner */}
         {error && (
           <div className="absolute top-[72px] left-1/2 -translate-x-1/2 z-50">
-            <div className="bg-warm-message-usr text-white px-4 py-2 rounded-full text-xs shadow-md border border-white/10 animate-in fade-in slide-in-from-top-2">
+            <div className="bg-warm-message-usr text-black px-4 py-2 rounded-full text-xs shadow-md border border-white/10 animate-in fade-in slide-in-from-top-2">
               {error}
             </div>
           </div>

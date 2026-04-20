@@ -52,7 +52,7 @@ const InputBar = ({ onSend, isLoading, suggestions, suggestionsVisible, setSugge
   };
 
   return (
-    <div className="w-full bg-warm-base px-5 pb-6 pt-2">
+    <div className="w-full bg-warm-base px-3 md:px-5 pb-8 md:pb-6 pt-2">
       <div className="max-w-3xl mx-auto flex flex-col items-center gap-2">
         
         {/* Follow-up Suggestions Area */}
@@ -74,7 +74,7 @@ const InputBar = ({ onSend, isLoading, suggestions, suggestionsVisible, setSugge
             onKeyDown={handleKeyDown}
             placeholder="Ask Gwen anything..."
             rows={1}
-            className="flex-1 bg-transparent border-none outline-none resize-none py-1.5 font-sans text-[15px] text-warm-text-primary leading-relaxed placeholder:text-warm-text-muted"
+            className="flex-1 bg-transparent border-none outline-none resize-none py-1.5 font-sans text-[15px] text-black leading-relaxed placeholder:text-warm-text-muted"
           />
           
           <button
@@ -92,7 +92,7 @@ const InputBar = ({ onSend, isLoading, suggestions, suggestionsVisible, setSugge
         </div>
 
         {/* Disclaimer */}
-        <p className="text-[11px] text-warm-text-muted text-center tracking-tight opacity-70">
+        <p className="text-[10px] md:text-[11px] text-warm-text-muted text-center tracking-tight opacity-70">
           Gwen may make mistakes. Verify important info.
         </p>
       </div>

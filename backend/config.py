@@ -24,14 +24,33 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
-# MongoDB Client
-client = AsyncIOMotorClient(settings.MONGODB_URI)
-db = client[settings.DB_NAME]
+# MongoDB Client - Fallback to None if URI is missing
+client = None
+db = None
+knowledge_base = None
+chat_sessions = None
 
-# Collections
-knowledge_base = db["knowledge_base"]
-chat_sessions = db["chat_sessions"]
+if settings.MONGODB_URI:
+    try:
+        client = AsyncIOMotorClient(settings.MONGODB_URI)
+        db = client[settings.DB_NAME]
+        knowledge_base = db["knowledge_base"]
+        chat_sessions = db["chat_sessions"]
+    except Exception as e:
+        print(f"Error initializing MongoDB: {e}")
+else:
+    print("WARNING: MONGODB_URI not set. Database functionality will be limited.")
 
-# Pinecone Client
-pc = Pinecone(api_key=settings.PINECONE_API_KEY)
-pinecone_index = pc.Index(settings.PINECONE_INDEX_NAME)
+# Pinecone Client - Fallback to None if API Key is missing
+pc = None
+pinecone_index = None
+
+if settings.PINECONE_API_KEY:
+    try:
+        pc = Pinecone(api_key=settings.PINECONE_API_KEY)
+        if settings.PINECONE_INDEX_NAME:
+            pinecone_index = pc.Index(settings.PINECONE_INDEX_NAME)
+    except Exception as e:
+        print(f"Error initializing Pinecone: {e}")
+else:
+    print("WARNING: PINECONE_API_KEY not set. Search functionality will be limited.")

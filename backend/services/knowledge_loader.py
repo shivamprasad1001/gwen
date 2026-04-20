@@ -9,6 +9,9 @@ logger = logging.getLogger(__name__)
 async def load_from_mongodb() -> str:
     """Fetches and formats all documents from the knowledge_base collection."""
     try:
+        if knowledge_base is None:
+            logger.warning("knowledge_base collection not initialized. Skipping MongoDB load.")
+            return ""
         cursor = knowledge_base.find({}).sort("key", 1)
         docs = await cursor.to_list(length=100)
         

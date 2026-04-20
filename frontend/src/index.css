@@ -10,9 +10,9 @@
   --bg-message-usr: #E8D5BE;
   --accent:         #C17D4A;
   --accent-soft:    #E8D5BE;
-  --text-primary:   #2C2825;
-  --text-secondary: #7A6E65;
-  --text-muted:     #A89E94;
+  --text-primary:   #000000;
+  --text-secondary: #4A4540;
+  --text-muted:     #706A64;
   --text-on-dark:   #FAF7F2;
   --border:         #E0D9CF;
   --border-focus:   #C17D4A;
@@ -35,6 +35,7 @@
 
 html, body, #root {
   height: 100%;
+  height: 100dvh; /* Dynamic Viewport Height for modern mobile browsers */
   font-family: 'DM Sans', sans-serif;
   background: var(--bg-base);
   color: var(--text-primary);

@@ -12,7 +12,7 @@ const MessageBubble = ({ role, content, timestamp }) => {
       isUser ? "items-end" : "items-start"
     )}>
       <div className={twMerge(
-        "flex gap-2.5 max-w-[85%] md:max-w-[72%]",
+        "flex gap-2.5 max-w-[92%] md:max-w-[72%]",
         isUser ? "flex-row-reverse" : "flex-row"
       )}>
         {/* Avatar for Bot using Static SVG for performance */}
@@ -39,8 +39,9 @@ const MessageBubble = ({ role, content, timestamp }) => {
         {/* Bubble */}
         <div className={twMerge(
           "px-[18px] py-[14px] text-[15px] shadow-warm-soft transition-all duration-300",
+          "text-black",
           isUser
-            ? "bg-warm-message-usr text-warm-text-primary rounded-l-lg rounded-tr-lg rounded-br-sm"
+            ? "bg-warm-message-usr rounded-l-lg rounded-tr-lg rounded-br-sm"
             : "bg-warm-message-bot border border-warm-border rounded-r-lg rounded-tl-lg rounded-bl-sm"
         )}>
           {isUser ? (

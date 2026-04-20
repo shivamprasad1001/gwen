@@ -3,7 +3,7 @@ import gwenAvatarUrl from '../../assets/gwen-avatar.svg';
 
 const Header = () => {
   return (
-    <header className="flex items-center gap-3 px-6 py-4 pl-16 border-b border-warm-border bg-warm-base z-30">
+    <header className="flex items-center gap-3 px-6 py-4 pl-14 md:pl-16 border-b border-warm-border bg-warm-base z-30">
       {/* Avatar using animated SVG */}
       <div style={{
         width: 42,

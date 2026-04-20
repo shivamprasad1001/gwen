@@ -12,7 +12,7 @@ const SUGGESTIONS = [
 
 const WelcomeScreen = ({ onSendMessage }) => {
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-6 max-w-lg mx-auto transform -translate-y-12">
+    <div className="flex-1 flex flex-col items-center justify-center p-6 max-w-lg mx-auto transform -translate-y-6 md:-translate-y-12">
       {/* Large Avatar using animated SVG */}
       <div style={{
         width: 80,
