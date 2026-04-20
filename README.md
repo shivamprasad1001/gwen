@@ -1,10 +1,56 @@
-# 🤍 Gwen
+<div align="center">
+  <img src="./public/gwen-avatar.svg" alt="Gwen Avatar" />
+  
+  # Gwen 🧠
+  
+  **Shivam's Personal AI — A digital twin that knows his story.**
 
-Gwen is a personal AI assistant built to answer questions about me, my work, research goals, and projects. Powered by Google Gemini (with Groq fallback), backed by Pinecone vector search, and built with FastAPI + React.
+  [![FastAPI](https://img.shields.io/badge/FastAPI-0.104-009688?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
+  [![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react)](https://react.dev)
+  [![Gemini](https://img.shields.io/badge/Gemini-1.5_Flash-4285F4?style=flat&logo=google)](https://ai.google.dev)
+  [![Pinecone](https://img.shields.io/badge/Pinecone-Vector_DB-000000?style=flat)](https://pinecone.io)
+  [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat&logo=mongodb)](https://mongodb.com)
 
-> "Who is Shivam?" — Just ask Gwen.
+  > *"Meet Gwen — ask anything about Shivam, his research, projects, or journey."*
+</div>
+
+## What is Gwen?
+
+Gwen is Shivam Prasad's personal AI assistant — a RAG-powered chatbot
+that knows everything about him. Ask about his research in Reinforcement
+Learning, his agency TriviLabs, his published papers, his PhD roadmap,
+or his tech stack. Gwen answers from a curated personal knowledge base.
+
+Built with FastAPI + React, powered by Gemini (Groq fallback),
+backed by Pinecone vector search.
 
 ---
+
+## Features
+
+- **RAG-powered** — answers from personal knowledge base (MD, JSON, MongoDB)
+- **Gemini + Groq fallback** — never goes offline
+- **Smart follow-up suggestions** — context-aware chips after each reply
+- **Markdown responses** — structured, readable, beautifully formatted
+- **Session history** — all conversations saved in sidebar
+- **Warm minimal UI** — Lora + DM Sans, terracotta palette, fully responsive
+- **Animated avatar** — custom SVG logo with orbital animations
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | React 18, Vite, Tailwind CSS |
+| Backend | FastAPI, Python 3.11 |
+| Primary LLM | Google Gemini 1.5 Flash |
+| Fallback LLM | Groq (LLaMA 3.3 70B) |
+| Embeddings | Google text-embedding-004 |
+| Vector DB | Pinecone |
+| Database | MongoDB Atlas |
+| Fonts | Lora, DM Sans, JetBrains Mono |
+
 
 ## Quick Start
 
