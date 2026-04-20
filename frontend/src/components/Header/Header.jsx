@@ -1,11 +1,12 @@
 import React from 'react';
+import GwenAvatar from '../../assets/gwen-avatar.svg?react';
 
 const Header = () => {
   return (
     <header className="flex items-center gap-3 px-6 py-4 pl-16 border-b border-warm-border bg-warm-base z-30">
-      {/* Avatar */}
-      <div className="w-[38px] h-[38px] rounded-full bg-gradient-to-br from-warm-accent to-[#8B5E3C] flex items-center justify-center text-white font-lora text-[15px] italic font-semibold shadow-sm overflow-hidden">
-        G
+      {/* Avatar using SVGR Component */}
+      <div className="w-[38px] h-[38px] rounded-full shadow-sm overflow-hidden flex-shrink-0">
+        <GwenAvatar width="38" height="38" />
       </div>
       
       {/* Identity */}
