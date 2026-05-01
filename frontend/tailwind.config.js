@@ -37,6 +37,10 @@ export default {
       animation: {
         'message-in': 'messageIn 300ms ease forwards',
         'typing-bounce': 'typingBounce 1.4s infinite',
+        'blob': 'blob 7s infinite',
+        'fade-in-up': 'fadeInUp 1s ease-out forwards',
+        'float': 'float 6s ease-in-out infinite',
+        'pulse-glow': 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
         messageIn: {
@@ -46,6 +50,24 @@ export default {
         typingBounce: {
           '0%, 60%, 100%': { transform: 'translateY(0)' },
           '30%': { transform: 'translateY(-5px)' },
+        },
+        blob: {
+          '0%': { transform: 'translate(0px, 0px) scale(1)' },
+          '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+          '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+          '100%': { transform: 'translate(0px, 0px) scale(1)' },
+        },
+        fadeInUp: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        pulseGlow: {
+          '0%, 100%': { opacity: '1', filter: 'drop-shadow(0 0 10px rgba(193,125,74,0.4))' },
+          '50%': { opacity: '0.8', filter: 'drop-shadow(0 0 20px rgba(193,125,74,0.8))' },
         }
       }
     },

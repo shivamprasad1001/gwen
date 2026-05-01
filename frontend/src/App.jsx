@@ -4,10 +4,12 @@ import Header from './components/Header/Header';
 import ChatWindow from './components/Chat/ChatWindow';
 import InputBar from './components/Input/InputBar';
 import SidebarToggle from './components/UI/SidebarToggle';
+import LandingPage from './components/Landing/LandingPage';
 import { useSessions } from './hooks/useSessions';
 import { useChat } from './hooks/useChat';
 
 function App() {
+  const [hasEntered, setHasEntered] = useState(false);
   // Session State
   const { 
     sessions, 
@@ -64,6 +66,10 @@ function App() {
     // Send message (useChat handles the logic)
     await sendMessage(text, activeId);
   };
+
+  if (!hasEntered) {
+    return <LandingPage onEnter={() => setHasEntered(true)} />;
+  }
 
   return (
     <div className="flex h-[100dvh] w-full bg-warm-base overflow-hidden relative font-sans text-warm-text-primary">
