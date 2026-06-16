@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.settings import settings
 from backend.routes import chat, admin, health, suggestions
 from backend.services.knowledge_loader import build_knowledge_context
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+import httpx
 import logging
 
 # Configure logging
@@ -15,22 +17,36 @@ logger = logging.getLogger(__name__)
 
 # Global Knowledge Context
 knowledge_context = ""
+scheduler = AsyncIOScheduler()
+
+SELF_URL = "https://your-app.onrender.com/api/health"  # update this
+
+async def self_ping():
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(SELF_URL)
+            logger.info(f"Self ping - Status: {response.status_code}")
+    except Exception as e:
+        logger.error(f"Self ping failed: {e}")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """
-    Modern lifespan handler for FastAPI to handle startup/shutdown.
-    """
     global knowledge_context
-    logger.info("Starting up PersonalAI: Initializing Knowledge Knowledge Base...")
+    logger.info("Starting up PersonalAI: Initializing Knowledge Base...")
     try:
         knowledge_context = await build_knowledge_context()
         logger.info(f"Knowledge loaded: {len(knowledge_context)} characters.")
     except Exception as e:
         logger.error(f"Knowledge load failure: {str(e)}")
-    
-    yield  # Runs the application
-    
+
+    # Start self-ping scheduler
+    scheduler.add_job(self_ping, "interval", minutes=10)
+    scheduler.start()
+    logger.info("Self-ping scheduler started.")
+
+    yield
+
+    scheduler.shutdown()
     logger.info("Shutting down PersonalAI...")
 
 app = FastAPI(
@@ -51,7 +67,6 @@ app.add_middleware(
 
 # Register Routers
 app.include_router(chat.router, prefix="/api")
-# admin router is kept but typically secured in production
 app.include_router(admin.router, prefix="/api")
 app.include_router(health.router, prefix="/api")
 app.include_router(suggestions.router, prefix="/api")
