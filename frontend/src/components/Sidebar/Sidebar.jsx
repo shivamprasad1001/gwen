@@ -1,16 +1,27 @@
-import React from 'react';
-import { Plus } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plus, Trash2, AlertTriangle } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import SessionList from './SessionList';
 import gwenAvatarUrl from '../../assets/gwen-avatar.svg';
 
-const Sidebar = ({ 
-  isOpen, 
-  groupedSessions, 
-  currentSessionId, 
-  onSelectSession, 
-  onNewChat 
+const Sidebar = ({
+  isOpen,
+  groupedSessions,
+  currentSessionId,
+  onSelectSession,
+  onNewChat,
+  onDeleteSession,
+  onClearHistory,
 }) => {
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const hasSessions = Object.values(groupedSessions).some(g => g.length > 0);
+
+  const handleClearAll = () => {
+    onClearHistory();
+    setShowConfirm(false);
+  };
+
   return (
     <aside
       className={twMerge(
@@ -20,14 +31,14 @@ const Sidebar = ({
       )}
     >
       {/* Sidebar Header with Avatar */}
-      <div style={{ 
-        display:'flex', 
-        alignItems:'center', 
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
         gap: 8,
-        padding: '20px 16px 12px' 
+        padding: '20px 16px 12px'
       }}>
         <div style={{
-          width: 28, 
+          width: 28,
           height: 28,
           borderRadius: '50%',
           overflow: 'hidden',
@@ -63,14 +74,79 @@ const Sidebar = ({
       <div className="h-[1px] bg-warm-border mx-4 my-2 opacity-50" />
 
       {/* Session List */}
-      <SessionList 
-        groupedSessions={groupedSessions} 
-        currentSessionId={currentSessionId} 
-        onSelectSession={onSelectSession} 
+      <SessionList
+        groupedSessions={groupedSessions}
+        currentSessionId={currentSessionId}
+        onSelectSession={onSelectSession}
+        onDeleteSession={onDeleteSession}
       />
 
       {/* Sidebar Footer */}
       <footer className="p-5 border-t border-warm-border bg-warm-sidebar/50">
+
+        {/* Confirm Overlay */}
+        {showConfirm && (
+          <div
+            style={{
+              background: 'rgba(44,40,37,0.97)',
+              border: '1px solid rgba(193,125,74,0.25)',
+              borderRadius: 10,
+              padding: '14px 12px',
+              marginBottom: 12,
+              animation: 'fadeSlideUp 160ms ease',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+              <AlertTriangle size={13} color="#f87171" />
+              <span style={{ fontSize: 12, color: '#f87171', fontWeight: 600 }}>
+                Delete all history?
+              </span>
+            </div>
+            <p style={{ fontSize: 11, color: '#a89880', marginBottom: 12, lineHeight: 1.5 }}>
+              This removes all conversations from this device. It cannot be undone.
+            </p>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button
+                onClick={() => setShowConfirm(false)}
+                style={{
+                  flex: 1,
+                  padding: '6px 0',
+                  fontSize: 12,
+                  borderRadius: 6,
+                  border: '1px solid rgba(168,152,128,0.3)',
+                  background: 'transparent',
+                  color: '#a89880',
+                  cursor: 'pointer',
+                  transition: 'background 150ms',
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(168,152,128,0.1)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleClearAll}
+                style={{
+                  flex: 1,
+                  padding: '6px 0',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  borderRadius: 6,
+                  border: '1px solid rgba(248,113,113,0.4)',
+                  background: 'rgba(248,113,113,0.12)',
+                  color: '#f87171',
+                  cursor: 'pointer',
+                  transition: 'background 150ms',
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(248,113,113,0.22)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'rgba(248,113,113,0.12)'}
+              >
+                Delete All
+              </button>
+            </div>
+          </div>
+        )}
+
         <div className="flex flex-col gap-1">
           <p className="text-[11px] text-warm-text-muted">
             Powered by <span className="font-medium">Gemini + Groq</span>
@@ -78,8 +154,29 @@ const Sidebar = ({
           <p className="text-[11px] text-warm-text-muted flex items-center gap-1">
             Made by <span className="text-warm-accent font-medium">Shivam</span>
           </p>
+
+          {/* Clear History Button */}
+          {hasSessions && !showConfirm && (
+            <button
+              onClick={() => setShowConfirm(true)}
+              className="mt-3 flex items-center gap-1.5 text-[11px] text-warm-text-muted hover:text-red-400 transition-colors duration-150 group"
+            >
+              <Trash2
+                size={11}
+                className="group-hover:text-red-400 transition-colors duration-150"
+              />
+              Clear all history
+            </button>
+          )}
         </div>
       </footer>
+
+      <style>{`
+        @keyframes fadeSlideUp {
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </aside>
   );
 };

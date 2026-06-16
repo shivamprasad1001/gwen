@@ -1,7 +1,7 @@
 import React from 'react';
 import SessionItem from './SessionItem';
 
-const SessionList = ({ groupedSessions, currentSessionId, onSelectSession }) => {
+const SessionList = ({ groupedSessions, currentSessionId, onSelectSession, onDeleteSession }) => {
   const hasSessions = Object.values(groupedSessions).some(g => g.length > 0);
 
   if (!hasSessions) {
@@ -29,6 +29,7 @@ const SessionList = ({ groupedSessions, currentSessionId, onSelectSession }) => 
               timestamp={s.createdAt}
               isActive={s.id === currentSessionId}
               onClick={() => onSelectSession(s.id)}
+              onDelete={() => onDeleteSession(s.id)}
             />
           ))}
         </div>

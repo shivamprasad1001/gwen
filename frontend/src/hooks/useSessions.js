@@ -61,6 +61,11 @@ export const useSessions = () => {
     setCurrentSessionId(null);
   };
 
+  const clearAllSessions = () => {
+    setSessions([]);
+    setCurrentSessionId(null);
+  };
+
   // Grouping logic for display
   const getGroupedSessions = () => {
     const groups = {
@@ -97,6 +102,7 @@ export const useSessions = () => {
     updateSessionMessages,
     deleteSession,
     clearCurrentSession,
+    clearAllSessions,
     getGroupedSessions
   };
 };

@@ -18,6 +18,8 @@ function App() {
     createSession, 
     selectSession, 
     updateSessionMessages,
+    deleteSession,
+    clearAllSessions,
     getGroupedSessions
   } = useSessions();
 
@@ -81,6 +83,8 @@ function App() {
         currentSessionId={currentSessionId}
         onSelectSession={handleSelectSession}
         onNewChat={handleNewChat}
+        onDeleteSession={deleteSession}
+        onClearHistory={clearAllSessions}
       />
 
       {/* Mobile Overlay */}
