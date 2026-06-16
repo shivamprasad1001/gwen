@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 knowledge_context = ""
 scheduler = AsyncIOScheduler()
 
-SELF_URL = "https://your-app.onrender.com/api/health"  # update this
+SELF_URL = "https://gwen-ccgg.onrender.com/api/health"  # update this with your backend url(render/railway). In my case render.
 
 async def self_ping():
     try:
