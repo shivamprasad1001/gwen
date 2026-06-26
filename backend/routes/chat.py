@@ -8,7 +8,6 @@ from backend.services.llm import ask_gemini, ask_groq
 from backend.services.embedding import generate_embedding
 from backend.services.retriever import pinecone_search
 from backend.settings import chat_sessions, settings
-import backend.main as main_module
 
 router = APIRouter()
 
@@ -30,6 +29,7 @@ def get_system_prompt(rag_context: str, app_id: str = "default") -> str:
     Constructs the system prompt for Gwen.
     Grounded in both static data and dynamic Pinecone context.
     """
+    import backend.main as main_module
     base_knowledge = main_module.knowledge_context
     
     app_context = ""

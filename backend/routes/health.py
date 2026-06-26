@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 from backend.models import HealthResponse
 from backend.settings import db, pinecone_index
-import backend.main as main_module
 
 router = APIRouter()
 
@@ -26,6 +25,7 @@ async def health_check():
     except Exception:
         pass
         
+    import backend.main as main_module
     return {
         "status": "ok",
         "mongodb": mongodb_status,

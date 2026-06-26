@@ -2,7 +2,6 @@ import secrets
 from fastapi import APIRouter, Header, HTTPException
 from backend.settings import settings
 from backend.services.knowledge_loader import build_knowledge_context
-import backend.main as main_module
 
 router = APIRouter()
 
@@ -16,6 +15,7 @@ async def reload_knowledge(x_admin_token: str = Header(None)):
     
     # Update the global variable in main.py
     # We navigate through the module reference to update the state
+    import backend.main as main_module
     main_module.knowledge_context = new_context
     
     return {
