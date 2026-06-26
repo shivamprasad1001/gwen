@@ -6,6 +6,7 @@ class ChatRequest(BaseModel):
     session_id: Optional[str] = None
     message: str
     history: List[dict] # Turn objects: {"role": "user"|"assistant", "content": "..."}
+    app_id: Optional[str] = "default"
 
 class ChatResponse(BaseModel):
     reply: str

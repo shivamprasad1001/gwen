@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     # App & Security
     ADMIN_TOKEN: str = os.getenv("ADMIN_TOKEN", "")
     ALLOWED_ORIGINS: str = os.getenv("ALLOWED_ORIGINS", "")
+    GWEN_API_KEY: str = os.getenv("GWEN_API_KEY", "")
     DATA_FOLDER: str = os.getenv("DATA_FOLDER", "data/")
     OWNER_NAME: str = os.getenv("OWNER_NAME", "Shivam")
     TOP_K: int = 5

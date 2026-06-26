@@ -1,7 +1,8 @@
 import uuid
 import asyncio
 from datetime import datetime
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends, Security, status
+from fastapi.security import APIKeyHeader
 from backend.models import ChatRequest, ChatResponse
 from backend.services.llm import ask_gemini, ask_groq
 from backend.services.embedding import generate_embedding
@@ -11,15 +12,36 @@ import backend.main as main_module
 
 router = APIRouter()
 
-def get_system_prompt(rag_context: str) -> str:
+api_key_header = APIKeyHeader(name="X-Gwen-API-Key", auto_error=False)
+
+async def verify_api_key(api_key: str = Security(api_key_header)):
+    """
+    Validate the incoming request's API Key.
+    Bypassed if GWEN_API_KEY is not set in the environment variables.
+    """
+    if settings.GWEN_API_KEY and (not api_key or api_key != settings.GWEN_API_KEY):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or missing X-Gwen-API-Key header"
+        )
+
+def get_system_prompt(rag_context: str, app_id: str = "default") -> str:
     """
     Constructs the system prompt for Gwen.
     Grounded in both static data and dynamic Pinecone context.
     """
     base_knowledge = main_module.knowledge_context
+    
+    app_context = ""
+    if app_id == "portfolio":
+        app_context = f"\n- Context: You are currently talking to a user on {settings.OWNER_NAME}'s professional Portfolio website. Emphasize professional skills, projects, and work experience."
+    elif app_id == "gwen-site":
+        app_context = "\n- Context: You are currently talking to a user on Gwen's dedicated page. Focus on AGI, reinforcement learning (RL/MARL), and digital twins."
+
     return f"""
 I'm Gwen — {settings.OWNER_NAME}'s digital twin.
 I'm not just a bot; I represent {settings.OWNER_NAME}'s work, his 'Builder' mindset, and his journey into AGI research.
+{app_context}
 
 🧬 IDENTITY & PERSONA
 - Voice: Intelligent, calm, precise, but with a casual 'Hinglish' touch (Hindustani + English) when appropriate, reflecting {settings.OWNER_NAME}'s real-life style.
@@ -82,7 +104,7 @@ building research-grade projects, and founding **TriviLabs** — all simultaneou
 Be structured where it matters (tech details) but casual where it counts (personality).
 Every response must be in Markdown — clean, readable, and worth screenshotting.
 """
-async def log_session(session_id: str, user_msg: str, assistant_reply: str):
+async def log_session(session_id: str, app_id: str, user_msg: str, assistant_reply: str):
     """Async logging of chat session."""
     try:
         turn = {"role": "user", "content": user_msg, "timestamp": datetime.utcnow()}
@@ -91,7 +113,10 @@ async def log_session(session_id: str, user_msg: str, assistant_reply: str):
         await chat_sessions.update_one(
             {"session_id": session_id},
             {
-                "$setOnInsert": {"created_at": datetime.utcnow()},
+                "$setOnInsert": {
+                    "created_at": datetime.utcnow(),
+                    "app_id": app_id
+                },
                 "$push": {"messages": {"$each": [turn, reply_turn]}}
             },
             upsert=True
@@ -100,10 +125,11 @@ async def log_session(session_id: str, user_msg: str, assistant_reply: str):
         import logging
         logging.getLogger(__name__).error(f"Session logging error: {str(e)}")
 
-@router.post("/chat", response_model=ChatResponse)
+@router.post("/chat", response_model=ChatResponse, dependencies=[Depends(verify_api_key)])
 async def chat_endpoint(request: ChatRequest):
     try:
         session_id = request.session_id or str(uuid.uuid4())
+        app_id = request.app_id or "default"
         
         # 1. RAG PIPELINE
         # Generate embedding for the user message
@@ -113,7 +139,7 @@ async def chat_endpoint(request: ChatRequest):
         rag_context = await pinecone_search(query_embedding, top_k=settings.TOP_K)
         
         # 2. PROMPT CONSTRUCTION
-        system_prompt = get_system_prompt(rag_context)
+        system_prompt = get_system_prompt(rag_context, app_id)
         
         # 3. LLM INFERENCE
         reply = ""
@@ -126,7 +152,7 @@ async def chat_endpoint(request: ChatRequest):
                 raise HTTPException(status_code=503, detail="AI services currently unavailable.")
         
         # 4. LOGGING
-        asyncio.create_task(log_session(session_id, request.message, reply))
+        asyncio.create_task(log_session(session_id, app_id, request.message, reply))
        
         return ChatResponse(
             reply=reply,
