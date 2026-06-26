@@ -12,6 +12,7 @@ const Sidebar = ({
   onNewChat,
   onDeleteSession,
   onClearHistory,
+  onDocsClick,
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -148,6 +149,12 @@ const Sidebar = ({
         )}
 
         <div className="flex flex-col gap-1">
+          <button 
+            onClick={onDocsClick}
+            className="text-[12px] text-left text-warm-text-secondary hover:text-warm-accent font-medium transition-colors mb-2.5 border border-warm-border rounded p-2 flex items-center justify-center gap-1.5 bg-warm-surface/40 hover:bg-warm-surface transition-all active:scale-[0.98]"
+          >
+            Developer API Docs
+          </button>
           <p className="text-[11px] text-warm-text-muted">
             Powered by <span className="font-medium">Gemini + Groq</span>
           </p>

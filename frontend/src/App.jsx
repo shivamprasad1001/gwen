@@ -7,6 +7,7 @@ import SidebarToggle from './components/UI/SidebarToggle';
 import LandingPage from './components/Landing/LandingPage';
 import { useSessions } from './hooks/useSessions';
 import { useChat } from './hooks/useChat';
+import DocPage from './components/DocPage';
 
 function App() {
   const [hasEntered, setHasEntered] = useState(false);
@@ -33,6 +34,21 @@ function App() {
   // UI State
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  // Handle URL history state changes (back/forward browser buttons)
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (path) => {
+    window.history.pushState({}, '', path);
+    setCurrentPath(path);
+  };
 
   // Handle Window Resize
   useEffect(() => {
@@ -69,6 +85,10 @@ function App() {
     await sendMessage(text, activeId);
   };
 
+  if (currentPath === '/doc' || currentPath === '/docs') {
+    return <DocPage onBack={() => navigateTo('/')} />;
+  }
+
   if (!hasEntered) {
     return <LandingPage onEnter={() => setHasEntered(true)} />;
   }
@@ -85,6 +105,7 @@ function App() {
         onNewChat={handleNewChat}
         onDeleteSession={deleteSession}
         onClearHistory={clearAllSessions}
+        onDocsClick={() => navigateTo('/doc')}
       />
 
       {/* Mobile Overlay */}
@@ -104,7 +125,7 @@ function App() {
         />
 
         {/* Header Bar */}
-        <Header />
+        <Header onDocsClick={() => navigateTo('/doc')} />
 
         {/* Primary Chat View */}
         <ChatWindow 

@@ -1,7 +1,7 @@
 import React from 'react';
 import gwenAvatarUrl from '../../assets/gwen-avatar.svg';
 
-const Header = () => {
+const Header = ({ onDocsClick }) => {
   return (
     <header className="flex items-center gap-3 px-6 py-4 pl-14 md:pl-16 border-b border-warm-border bg-warm-base z-30">
       {/* Avatar using animated SVG */}
@@ -32,8 +32,14 @@ const Header = () => {
         </p>
       </div>
 
-      {/* Online Status */}
+      {/* Online Status & Docs */}
       <div className="ml-auto flex items-center gap-2">
+        <button 
+          onClick={onDocsClick}
+          className="text-[13px] font-medium text-warm-text-secondary hover:text-warm-accent transition-colors mr-4 border-r border-warm-border pr-4 hidden sm:block"
+        >
+          API Docs
+        </button>
         <div className="w-[6px] h-[6px] rounded-full bg-[#6DBE8C] shadow-[0_0_6px_#6DBE8C]" />
         <span className="text-[12px] text-warm-text-muted font-medium">online</span>
       </div>
