@@ -315,9 +315,10 @@ except Exception as e:
         </div>
 
         {/* Scrollable Document Content */}
-        <div ref={contentRef} className="flex-1 overflow-y-auto px-6 md:px-12 py-8 max-w-4xl space-y-12 scroll-smooth">
-          {/* Header Description */}
-          <section id="overview" className="space-y-4">
+        <div ref={contentRef} className="flex-1 overflow-y-auto py-8 scroll-smooth">
+          <div className="max-w-4xl mx-auto px-6 md:px-12 space-y-12">
+            {/* Header Description */}
+            <section id="overview" className="space-y-4">
             <h1 className="font-lora text-3xl font-medium text-warm-text-primary">Gwen API Documentation</h1>
             <p className="text-warm-text-secondary leading-relaxed text-sm md:text-base">
               Integrate Gwen, Shivam's digital twin, into your own portfolio websites, chat applications, or developer consoles. 
@@ -546,6 +547,7 @@ except Exception as e:
               </div>
             </div>
           </section>
+          </div>
         </div>
       </main>
     </div>
