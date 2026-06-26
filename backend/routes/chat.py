@@ -18,7 +18,19 @@ async def verify_api_key(api_key: str = Security(api_key_header)):
     Validate the incoming request's API Key.
     Bypassed if GWEN_API_KEY is not set in the environment variables.
     """
-    if settings.GWEN_API_KEY and (not api_key or api_key.strip() != settings.GWEN_API_KEY.strip()):
+    if not settings.GWEN_API_KEY:
+        return
+        
+    if not api_key:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or missing X-Gwen-API-Key header"
+        )
+        
+    clean_settings_key = "".join(settings.GWEN_API_KEY.split())
+    clean_incoming_key = "".join(api_key.split())
+    
+    if clean_incoming_key != clean_settings_key:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid or missing X-Gwen-API-Key header"
