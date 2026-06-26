@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 knowledge_context = ""
 scheduler = AsyncIOScheduler()
 
-SELF_URL = "https://gwen-ccgg.onrender.com/api/health"  # update this with your backend url(render/railway). In my case render.
+SELF_URL = settings.SELF_URL  # update this with your backend url(render/railway). In my case render.
 
 async def self_ping():
     try:
@@ -57,9 +57,11 @@ app = FastAPI(
 )
 
 # CORS Configuration
+origins = [origin.strip() for origin in settings.ALLOWED_ORIGINS.split(",") if origin.strip()] if settings.ALLOWED_ORIGINS else []
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.ALLOWED_ORIGINS.split(","),
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

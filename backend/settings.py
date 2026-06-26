@@ -26,10 +26,11 @@ class Settings(BaseSettings):
     
     # App & Security
     ADMIN_TOKEN: str = os.getenv("ADMIN_TOKEN", "")
-    ALLOWED_ORIGINS: str = os.getenv("ALLOWED_ORIGINS", "https://gwen-xi.vercel.app,http://localhost:5173")
+    ALLOWED_ORIGINS: str = os.getenv("ALLOWED_ORIGINS", "")
     DATA_FOLDER: str = os.getenv("DATA_FOLDER", "data/")
     OWNER_NAME: str = os.getenv("OWNER_NAME", "Shivam")
     TOP_K: int = 5
+    SELF_URL: str = os.getenv("SELF_URL", "https://gwen-ccgg.onrender.com/api/health")
 
     class Config:
         env_file = ".env"
