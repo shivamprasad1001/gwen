@@ -13,13 +13,13 @@ const FollowUpSuggestions = ({ suggestions, onSelect, visible }) => {
         <p className="text-[11px] text-warm-text-muted font-medium uppercase tracking-[0.04em] mb-1 pl-1">
           Continue exploring <span className="text-warm-accent">›</span>
         </p>
-        <div className="flex flex-wrap gap-2 justify-start">
+        <div className="flex flex-nowrap md:flex-wrap gap-2 overflow-x-auto md:overflow-x-visible scrollbar-none -mx-6 px-6 md:-mx-0 md:px-0 pb-1.5 md:pb-0">
           {suggestions.map((text, idx) => (
             <button
               key={idx}
               onClick={() => onSelect(text)}
               className={twMerge(
-                "group flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-warm-border bg-warm-base shadow-sm",
+                "group flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-warm-border bg-warm-base shadow-sm whitespace-nowrap flex-shrink-0",
                 "text-[13px] text-warm-text-secondary font-sans transition-all duration-200",
                 "hover:bg-warm-accent-soft hover:border-warm-accent hover:text-warm-accent hover:-translate-y-0.5",
                 "active:translate-y-0 hover:shadow-[0_3px_10px_rgba(193,125,74,0.15)]"

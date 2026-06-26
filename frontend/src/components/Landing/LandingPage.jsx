@@ -32,10 +32,10 @@ const LandingPage = ({ onEnter }) => {
   }, []);
 
   return (
-    <div className="relative min-h-[100dvh] h-[100dvh] w-full bg-[#FAF7F2] overflow-hidden flex flex-col font-sans selection:bg-[#E8D5BE] selection:text-black">
-      {/* Dynamic Animated Background */}
+    <div className="relative min-h-[100dvh] w-full bg-[#FAF7F2] overflow-y-auto flex flex-col font-sans selection:bg-[#E8D5BE] selection:text-black scrollbar-none">
+      {/* Dynamic Animated Background - fixed so it doesn't stretch on scroll */}
       <div className={cn(
-        "absolute inset-0 overflow-hidden pointer-events-none transition-opacity duration-[2000ms] ease-in-out",
+        "fixed inset-0 overflow-hidden pointer-events-none transition-opacity duration-[2000ms] ease-in-out z-0",
         mounted ? "opacity-100" : "opacity-0"
       )}>
         <div className="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] rounded-full bg-[#C17D4A]/10 mix-blend-multiply filter blur-[100px] animate-blob" />
@@ -48,7 +48,7 @@ const LandingPage = ({ onEnter }) => {
 
       {/* Navigation / Header */}
       <nav className={cn(
-        "relative z-10 flex justify-between items-center px-8 py-6 max-w-7xl mx-auto w-full transition-all duration-1000 transform",
+        "relative z-10 flex justify-between items-center px-4 py-4 md:px-8 md:py-6 max-w-7xl mx-auto w-full transition-all duration-1000 transform",
         mounted ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-8"
       )}>
         <div className="flex items-center gap-3">
@@ -61,37 +61,37 @@ const LandingPage = ({ onEnter }) => {
           href="https://github.com/shivamprasad1001"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-[#706A64] hover:text-[#C17D4A] transition-all font-medium bg-white/40 px-4 py-2 rounded-full border border-white/60 shadow-sm backdrop-blur-md hover:shadow-md hover:-translate-y-1 duration-300"
+          className="flex items-center gap-2 text-[#706A64] hover:text-[#C17D4A] transition-all font-medium bg-white/40 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-white/60 shadow-sm backdrop-blur-md hover:shadow-md hover:-translate-y-1 duration-300"
         >
           <Github className="w-4 h-4" />
-          <span className="text-sm">shivamprasad1001</span>
+          <span className="text-xs md:text-sm">shivamprasad1001</span>
         </a>
       </nav>
 
       {/* Main Content */}
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 text-center max-w-5xl mx-auto w-full pb-20 pt-8 mt-auto mb-auto">
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 md:px-6 text-center max-w-5xl mx-auto w-full pb-16 pt-6 md:pb-24 md:pt-12 my-auto">
 
         {/* Badge */}
         <div className={cn(
-          "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/50 backdrop-blur-sm border border-[#C17D4A]/20 text-[#C17D4A] font-medium text-sm mb-8 transition-all duration-1000 transform",
+          "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/50 backdrop-blur-sm border border-[#C17D4A]/20 text-[#C17D4A] font-medium text-xs md:text-sm mb-6 md:mb-8 transition-all duration-1000 transform",
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
-          <Sparkles className="w-4 h-4" />
+          <Sparkles className="w-3.5 h-3.5" />
           <span>Shivam's Personal Intelligence</span>
         </div>
 
         {/* Hero Title */}
         <h1 className={cn(
-          "text-6xl md:text-8xl font-bold tracking-tighter text-[#2C2825] mb-6 transition-all duration-1000 delay-100 transform",
+          "text-4xl sm:text-6xl md:text-8xl font-bold tracking-tighter text-[#2C2825] mb-4 md:mb-6 transition-all duration-1000 delay-100 transform leading-tight",
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
-          Meet <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C17D4A] to-[#8C5A35]">Gwen.</span> <br />
+          Meet <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C17D4A] to-[#8C5A35]">Gwen.</span> <br className="hidden sm:inline" />
           My Digital Brain.
         </h1>
 
         {/* Hero Subtitle */}
         <p className={cn(
-          "text-xl text-[#706A64] mb-12 max-w-2xl mx-auto leading-relaxed transition-all duration-1000 delay-200 transform",
+          "text-sm sm:text-lg md:text-xl text-[#706A64] mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed transition-all duration-1000 delay-200 transform px-2",
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
           I've trained Gwen on my entire professional journey—my projects, coding experience, tech stack, and thoughts. Ask her anything to learn everything about me.
@@ -99,7 +99,7 @@ const LandingPage = ({ onEnter }) => {
 
         {/* CTA Button */}
         <div className={cn(
-          "relative transition-all duration-1000 delay-300 transform",
+          "relative transition-all duration-1000 delay-300 transform mb-16 md:mb-20",
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
           {/* Glowing aura */}
@@ -107,18 +107,18 @@ const LandingPage = ({ onEnter }) => {
 
           <button
             onClick={onEnter}
-            className="relative z-10 group inline-flex items-center gap-3 px-8 py-4 bg-[#2C2825] text-white rounded-full font-medium text-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_8px_32px_rgba(44,40,37,0.3)] active:scale-95"
+            className="relative z-10 group inline-flex items-center gap-3 px-6 py-3.5 md:px-8 md:py-4 bg-[#2C2825] text-white rounded-full font-medium text-base md:text-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_8px_32px_rgba(44,40,37,0.3)] active:scale-95"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-[#C17D4A] to-[#A36336] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <span className="relative z-10 flex items-center gap-2">
               Start Conversation
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
             </span>
           </button>
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 mb-60 w-full text-left">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mt-4 mb-8 md:mb-12 w-full text-left">
           <FeatureCard
             icon={TerminalSquare}
             title="My Experience & Stack"

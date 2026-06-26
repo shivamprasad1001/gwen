@@ -1,4 +1,4 @@
-import React from 'react';
+import { BookOpen } from 'lucide-react';
 import gwenAvatarUrl from '../../assets/gwen-avatar.svg';
 
 const Header = ({ onDocsClick }) => {
@@ -39,6 +39,15 @@ const Header = ({ onDocsClick }) => {
           className="text-[13px] font-medium text-warm-text-secondary hover:text-warm-accent transition-colors mr-4 border-r border-warm-border pr-4 hidden sm:block"
         >
           API Docs
+        </button>
+        {/* Mobile API Docs Button */}
+        <button 
+          onClick={onDocsClick}
+          className="sm:hidden p-2 text-warm-text-secondary hover:text-warm-accent hover:bg-warm-surface rounded-lg transition-colors mr-2 flex items-center justify-center"
+          aria-label="API Documentation"
+          title="API Documentation"
+        >
+          <BookOpen size={18} />
         </button>
         <div className="w-[6px] h-[6px] rounded-full bg-[#6DBE8C] shadow-[0_0_6px_#6DBE8C]" />
         <span className="text-[12px] text-warm-text-muted font-medium">online</span>
