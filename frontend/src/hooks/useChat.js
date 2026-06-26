@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import * as api from '../api/client';
+import api, { chat } from '../api/client';
 import { getKeywordSuggestions } from '../utils/getKeywordSuggestions';
 
 export const useChat = (currentSessionId, currentSessionMessages, updateSessionMessages) => {
@@ -60,10 +60,11 @@ export const useChat = (currentSessionId, currentSessionMessages, updateSessionM
         content: m.content
       }));
 
-      const response = await api.chat({
+      const response = await chat({
         session_id: targetId,
         message: text,
-        history: history
+        history: history,
+        app_id: import.meta.env.VITE_APP_ID || 'gwen-site'
       });
 
       const assistantMessage = {
