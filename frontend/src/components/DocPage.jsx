@@ -1,10 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ArrowLeft, Check, Copy, BookOpen, Key, Terminal, Settings, Code, Menu, X } from 'lucide-react';
 
 const DocPage = ({ onBack }) => {
   const [copiedId, setCopiedId] = useState(null);
   const [activeTab, setActiveTab] = useState('react');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const contentRef = useRef(null);
+
+  const handleNavClick = (e, id) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    const container = contentRef.current;
+    if (element && container) {
+      const top = element.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop - 20;
+      container.scrollTo({
+        top,
+        behavior: 'smooth'
+      });
+    }
+    setIsMobileMenuOpen(false);
+  };
 
   const handleCopy = (id, text) => {
     navigator.clipboard.writeText(text);
@@ -149,7 +164,7 @@ except Exception as e:
   };
 
   return (
-    <div className="flex h-screen w-full bg-warm-base text-warm-text-primary overflow-hidden font-sans">
+    <div className="flex h-[100dvh] w-full bg-warm-base text-warm-text-primary overflow-hidden font-sans">
       <style>{`
         .scrollbar-none::-webkit-scrollbar {
           display: none;
@@ -167,22 +182,22 @@ except Exception as e:
           <h1 className="font-lora italic text-[17px] text-warm-accent font-medium">Gwen Developer</h1>
         </div>
         <nav className="flex-1 p-4 overflow-y-auto space-y-1">
-          <a href="#overview" className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium">
+          <a href="#overview" onClick={(e) => handleNavClick(e, 'overview')} className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium">
             <BookOpen size={16} /> Overview
           </a>
-          <a href="#auth" className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium">
+          <a href="#auth" onClick={(e) => handleNavClick(e, 'auth')} className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium">
             <Key size={16} /> Authentication
           </a>
-          <a href="#chat" className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium">
+          <a href="#chat" onClick={(e) => handleNavClick(e, 'chat')} className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium">
             <Terminal size={16} /> POST /chat
           </a>
-          <a href="#suggestions" className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium">
+          <a href="#suggestions" onClick={(e) => handleNavClick(e, 'suggestions')} className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium">
             <Settings size={16} /> POST /suggestions
           </a>
-          <a href="#tailoring" className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium">
+          <a href="#tailoring" onClick={(e) => handleNavClick(e, 'tailoring')} className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium">
             <Settings size={16} /> App Context Tailoring
           </a>
-          <a href="#boilerplates" className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium">
+          <a href="#boilerplates" onClick={(e) => handleNavClick(e, 'boilerplates')} className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium">
             <Code size={16} /> Integration Boilerplates
           </a>
         </nav>
@@ -222,42 +237,42 @@ except Exception as e:
         <nav className="flex-1 p-4 overflow-y-auto space-y-1">
           <a 
             href="#overview" 
-            onClick={() => setIsMobileMenuOpen(false)}
+            onClick={(e) => handleNavClick(e, 'overview')}
             className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium"
           >
             <BookOpen size={16} /> Overview
           </a>
           <a 
             href="#auth" 
-            onClick={() => setIsMobileMenuOpen(false)}
+            onClick={(e) => handleNavClick(e, 'auth')}
             className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium"
           >
             <Key size={16} /> Authentication
           </a>
           <a 
             href="#chat" 
-            onClick={() => setIsMobileMenuOpen(false)}
+            onClick={(e) => handleNavClick(e, 'chat')}
             className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium"
           >
             <Terminal size={16} /> POST /chat
           </a>
           <a 
             href="#suggestions" 
-            onClick={() => setIsMobileMenuOpen(false)}
+            onClick={(e) => handleNavClick(e, 'suggestions')}
             className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium"
           >
             <Settings size={16} /> POST /suggestions
           </a>
           <a 
             href="#tailoring" 
-            onClick={() => setIsMobileMenuOpen(false)}
+            onClick={(e) => handleNavClick(e, 'tailoring')}
             className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium"
           >
             <Settings size={16} /> App Context Tailoring
           </a>
           <a 
             href="#boilerplates" 
-            onClick={() => setIsMobileMenuOpen(false)}
+            onClick={(e) => handleNavClick(e, 'boilerplates')}
             className="flex items-center gap-2.5 px-3 py-2 text-sm text-warm-text-secondary hover:text-warm-accent rounded-md hover:bg-warm-accent-soft/20 transition-all font-medium"
           >
             <Code size={16} /> Integration Boilerplates
@@ -291,16 +306,16 @@ except Exception as e:
 
         {/* Mobile Horizontal Sub-Navigation Tab Bar */}
         <div className="flex md:hidden overflow-x-auto scrollbar-none px-4 py-2.5 bg-warm-sidebar border-b border-warm-border gap-2 whitespace-nowrap scroll-smooth select-none">
-          <a href="#overview" className="text-xs font-semibold px-3 py-1.5 bg-warm-base hover:bg-warm-accent-soft/25 text-warm-text-secondary hover:text-warm-accent rounded-full transition-all">Overview</a>
-          <a href="#auth" className="text-xs font-semibold px-3 py-1.5 bg-warm-base hover:bg-warm-accent-soft/25 text-warm-text-secondary hover:text-warm-accent rounded-full transition-all">Authentication</a>
-          <a href="#chat" className="text-xs font-semibold px-3 py-1.5 bg-warm-base hover:bg-warm-accent-soft/25 text-warm-text-secondary hover:text-warm-accent rounded-full transition-all">POST /chat</a>
-          <a href="#suggestions" className="text-xs font-semibold px-3 py-1.5 bg-warm-base hover:bg-warm-accent-soft/25 text-warm-text-secondary hover:text-warm-accent rounded-full transition-all">POST /suggestions</a>
-          <a href="#tailoring" className="text-xs font-semibold px-3 py-1.5 bg-warm-base hover:bg-warm-accent-soft/25 text-warm-text-secondary hover:text-warm-accent rounded-full transition-all">App Context</a>
-          <a href="#boilerplates" className="text-xs font-semibold px-3 py-1.5 bg-warm-base hover:bg-warm-accent-soft/25 text-warm-text-secondary hover:text-warm-accent rounded-full transition-all">Integration</a>
+          <a href="#overview" onClick={(e) => handleNavClick(e, 'overview')} className="text-xs font-semibold px-3 py-1.5 bg-warm-base hover:bg-warm-accent-soft/25 text-warm-text-secondary hover:text-warm-accent rounded-full transition-all">Overview</a>
+          <a href="#auth" onClick={(e) => handleNavClick(e, 'auth')} className="text-xs font-semibold px-3 py-1.5 bg-warm-base hover:bg-warm-accent-soft/25 text-warm-text-secondary hover:text-warm-accent rounded-full transition-all">Authentication</a>
+          <a href="#chat" onClick={(e) => handleNavClick(e, 'chat')} className="text-xs font-semibold px-3 py-1.5 bg-warm-base hover:bg-warm-accent-soft/25 text-warm-text-secondary hover:text-warm-accent rounded-full transition-all">POST /chat</a>
+          <a href="#suggestions" onClick={(e) => handleNavClick(e, 'suggestions')} className="text-xs font-semibold px-3 py-1.5 bg-warm-base hover:bg-warm-accent-soft/25 text-warm-text-secondary hover:text-warm-accent rounded-full transition-all">POST /suggestions</a>
+          <a href="#tailoring" onClick={(e) => handleNavClick(e, 'tailoring')} className="text-xs font-semibold px-3 py-1.5 bg-warm-base hover:bg-warm-accent-soft/25 text-warm-text-secondary hover:text-warm-accent rounded-full transition-all">App Context</a>
+          <a href="#boilerplates" onClick={(e) => handleNavClick(e, 'boilerplates')} className="text-xs font-semibold px-3 py-1.5 bg-warm-base hover:bg-warm-accent-soft/25 text-warm-text-secondary hover:text-warm-accent rounded-full transition-all">Integration</a>
         </div>
 
         {/* Scrollable Document Content */}
-        <div className="flex-1 overflow-y-auto px-6 md:px-12 py-8 max-w-4xl space-y-12 scroll-smooth">
+        <div ref={contentRef} className="flex-1 overflow-y-auto px-6 md:px-12 py-8 max-w-4xl space-y-12 scroll-smooth">
           {/* Header Description */}
           <section id="overview" className="space-y-4">
             <h1 className="font-lora text-3xl font-medium text-warm-text-primary">Gwen API Documentation</h1>
